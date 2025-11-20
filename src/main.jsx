@@ -6,8 +6,10 @@ import './styles/tailwind.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/ExpenseTracker">
       <App />
     </BrowserRouter>
   </React.StrictMode>
 )
+
+

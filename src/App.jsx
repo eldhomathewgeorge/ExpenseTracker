@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import PrivateRoute from './auth/PrivateRoute'
 import Login from './auth/Login'
@@ -15,10 +15,12 @@ function Header(){
           <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold">FT</div>
           <h1 className="text-xl font-semibold">Expense Tracker</h1>
         </div>
+
+        {/* ✅ Fixed navigation (use Link instead of <a href>) */}
         <nav className="space-x-4 text-sm hidden md:block">
-          <a href="/" className="hover:underline">Home</a>
-          <a href="/analysis" className="hover:underline">Analysis</a>
-          <a href="/categories" className="hover:underline">Categories</a>
+          <Link to="/" className="hover:underline">Home</Link>
+          <Link to="/analysis" className="hover:underline">Analysis</Link>
+          <Link to="/categories" className="hover:underline">Categories</Link>
         </nav>
       </div>
     </header>
@@ -33,21 +35,33 @@ export default function App(){
         <main className="container mx-auto p-4">
           <Routes>
             <Route path="/login" element={<Login/>} />
-            <Route path="/" element={
-              <PrivateRoute>
-                <Dashboard/>
-              </PrivateRoute>
-            } />
-            <Route path="/analysis" element={
-              <PrivateRoute>
-                <AnalysisPage/>
-              </PrivateRoute>
-            } />
-            <Route path="/categories" element={
-              <PrivateRoute>
-                <CategoryManager/>
-              </PrivateRoute>
-            } />
+
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Dashboard/>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/analysis"
+              element={
+                <PrivateRoute>
+                  <AnalysisPage/>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/categories"
+              element={
+                <PrivateRoute>
+                  <CategoryManager/>
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </main>
       </div>
