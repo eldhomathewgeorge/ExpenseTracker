@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import PrivateRoute from './auth/PrivateRoute'
@@ -7,40 +7,70 @@ import Dashboard from './pages/Dashboard'
 import AnalysisPage from './pages/AnalysisPage'
 import CategoryManager from './pages/CategoryManager'
 
-function Header(){
+function Header() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="bg-white/80 sticky top-0 z-20 shadow-sm">
       <div className="container mx-auto p-4 flex items-center justify-between">
+
+        {/* Logo + Title */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold">FT</div>
+          <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold">
+            FT
+          </div>
           <h1 className="text-xl font-semibold">Expense Tracker</h1>
         </div>
 
-        {/* ✅ Fixed navigation (use Link instead of <a href>) */}
+        {/* Desktop Menu */}
         <nav className="space-x-4 text-sm hidden md:block">
           <Link to="/" className="hover:underline">Home</Link>
           <Link to="/analysis" className="hover:underline">Analysis</Link>
           <Link to="/categories" className="hover:underline">Categories</Link>
         </nav>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          className="md:hidden text-2xl"
+          onClick={() => setOpen(!open)}
+        >
+          ☰
+        </button>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {open && (
+        <div className="md:hidden bg-white border-t p-4 space-y-3">
+          <Link to="/" className="block" onClick={() => setOpen(false)}>
+            Home
+          </Link>
+          <Link to="/analysis" className="block" onClick={() => setOpen(false)}>
+            Analysis
+          </Link>
+          <Link to="/categories" className="block" onClick={() => setOpen(false)}>
+            Categories
+          </Link>
+        </div>
+      )}
     </header>
-  )
+  );
 }
 
-export default function App(){
+export default function App() {
   return (
     <AuthProvider>
       <div className="min-h-screen">
         <Header />
+
         <main className="container mx-auto p-4">
           <Routes>
-            <Route path="/login" element={<Login/>} />
+            <Route path="/login" element={<Login />} />
 
             <Route
               path="/"
               element={
                 <PrivateRoute>
-                  <Dashboard/>
+                  <Dashboard />
                 </PrivateRoute>
               }
             />
@@ -49,7 +79,7 @@ export default function App(){
               path="/analysis"
               element={
                 <PrivateRoute>
-                  <AnalysisPage/>
+                  <AnalysisPage />
                 </PrivateRoute>
               }
             />
@@ -58,7 +88,7 @@ export default function App(){
               path="/categories"
               element={
                 <PrivateRoute>
-                  <CategoryManager/>
+                  <CategoryManager />
                 </PrivateRoute>
               }
             />
